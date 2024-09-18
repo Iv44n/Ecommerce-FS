@@ -25,7 +25,7 @@ export default [
       ],
       '@stylistic/ts/space-infix-ops': 'error',
       '@stylistic/ts/type-annotation-spacing': 'error',
-      '@stylisticno-trailing-spaces': 'error',
+      '@stylistic/no-trailing-spaces': 'error',
       '@stylistic/no-multiple-empty-lines': ['error', { max: 1, maxEOF: 0 }],
       '@stylistic/eol-last': 'error',
       'no-duplicate-imports': 'error',
