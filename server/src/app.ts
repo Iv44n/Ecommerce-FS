@@ -1,9 +1,13 @@
+// IMPORT MODULES
 import express from 'express'
 
-const app = express()
+// IMPORT ROUTES
+import productRouters from './routes/productRoutes'
 
-app.get('/', (req, res) => {
-  res.send('Hello, World!')
-})
+const app = express()
+app.use(express.json())
+
+// ROUTES
+app.use('/api/products', productRouters)
 
 export default app
