@@ -4,8 +4,15 @@ import { ProductService } from '../services/productService'
 export class ProductController {
 
   static async getAllProducts(req: Request, res: Response) {
+    const limit = parseInt(req.query.limit as string) || 10
+    const offset = parseInt(req.query.offset as string) || 0
+
     try {
-      const products = await ProductService.getAllProducts()
+      const products = await ProductService.getAllProducts({
+        limit,
+        offset
+      })
+
       return res.json(products)
     } catch (error) {
       console.log(error)
