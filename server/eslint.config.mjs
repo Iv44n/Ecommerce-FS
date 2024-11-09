@@ -5,6 +5,8 @@ import stylisticTs from '@stylistic/eslint-plugin-ts'
 import stylistic from '@stylistic/eslint-plugin'
 
 export default [
+  pluginJs.configs.recommended,
+  ...tseslint.configs.recommended,
   {
     files: ['**/*.{js,mjs,cjs,ts}'],
     languageOptions: { globals: globals.node },
@@ -29,12 +31,20 @@ export default [
       '@stylistic/no-multiple-empty-lines': ['error', { max: 1, maxEOF: 0 }],
       '@stylistic/eol-last': 'error',
       'no-duplicate-imports': 'error',
-      'no-unused-vars': 'error'
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          'argsIgnorePattern': '^_',
+          'caughtErrors': 'all',
+          'caughtErrorsIgnorePattern': '^_',
+          'destructuredArrayIgnorePattern': '^_',
+          'varsIgnorePattern': '^_',
+          'ignoreRestSiblings': true
+        }
+      ],
+      '@typescript-eslint/no-explicit-any': 0
     }
   },
-
-  pluginJs.configs.recommended,
-  ...tseslint.configs.recommended,
 
   {
     ignores: ['node_modules/**', 'dist/**'],
