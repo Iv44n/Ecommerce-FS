@@ -1,3 +1,4 @@
+process.loadEnvFile()
 import app from './app'
 import { PORT } from './config/config'
 
