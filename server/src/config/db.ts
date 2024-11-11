@@ -1,14 +1,12 @@
 import pg, { ClientConfig } from 'pg'
-import dotenv from 'dotenv'
-
-dotenv.config()
+import { DB_CONFIG } from '../constants/env'
 
 const pgConfig: ClientConfig = {
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_NAME,
-  password: process.env.DB_PASSWORD,
-  port: parseInt(process.env.DB_PORT || '5432')
+  user: DB_CONFIG.DB_USER,
+  host: DB_CONFIG.DB_HOST,
+  database: DB_CONFIG.DB_NAME,
+  password: DB_CONFIG.DB_PASSWORD,
+  port: parseInt(DB_CONFIG.DB_PORT)
 }
 
 export const pool = new pg.Pool(pgConfig)
