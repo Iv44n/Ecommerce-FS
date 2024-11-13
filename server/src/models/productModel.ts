@@ -7,27 +7,17 @@ export class ProductModel {
   private static readonly sqlGetProductById: string = 'SELECT * FROM products WHERE id = $1'
 
   static async getAllProducts({ limit, offset }: { limit: number, offset: number }): Promise<Product[]> {
-    try {
-      const { rows } = await pool.query(this.sqlGetAllProducts, [limit, offset])
-      return rows
-    } catch (error) {
-      console.error(error)
-      throw new Error('Error retrieving products')
-    }
+    const { rows } = await pool.query(this.sqlGetAllProducts, [limit, offset])
+    return rows
   }
 
   static async getProduct({ id }: { id: string }): Promise<Product> {
-    try {
-      const { rows } = await pool.query(this.sqlGetProductById, [id])
+    const { rows } = await pool.query(this.sqlGetProductById, [id])
 
-      if (rows.length === 0) {
-        throw new Error('Product not found')
-      }
-
-      return rows[0]
-    } catch (error) {
-      console.error(error)
-      throw new Error(`Error retrieving product with id ${id}`)
+    if (rows.length === 0) {
+      throw new Error('Product not found')
     }
+
+    return rows[0]
   }
 }
