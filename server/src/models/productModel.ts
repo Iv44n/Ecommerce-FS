@@ -11,7 +11,7 @@ export class ProductModel {
     return rows
   }
 
-  static async getProduct({ id }: { id: string }): Promise<Product> {
+  static async getProductById({ id }: { id: string | number }): Promise<Product> {
     const { rows } = await pool.query(this.sqlGetProductById, [id])
 
     if (rows.length === 0) {
