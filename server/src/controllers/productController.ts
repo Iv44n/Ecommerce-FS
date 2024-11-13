@@ -1,23 +1,36 @@
 import { Request, Response } from 'express'
 import { ProductService } from '../services/productService'
 import catchErrors from '../utils/catchErrors'
+import { z } from 'zod'
+import { BAD_REQUEST } from '../constants/http'
 
 export class ProductController {
 
-  static getAllProducts = catchErrors(async (req: Request, res: Response) => {
-    const limit = parseInt(req.query.limit as string) || 10
-    const offset = parseInt(req.query.offset as string) || 0
-
-    const products = await ProductService.getAllProducts({
-      limit,
-      offset
+  static getAllProductsHandler = catchErrors(async (req: Request, res: Response) => {
+    const querySchema = z.object({
+      limit: z.string().optional().transform(val => parseInt(val || '10')),
+      offset: z.string().optional().transform(val => parseInt(val || '0'))
     })
+
+    const { limit, offset } = querySchema.parse(req.query)
+
+    const products = await ProductService.getAllProducts({ limit, offset })
 
     return res.json(products)
   })
 
-  static getProduct = catchErrors(async (req: Request, res: Response) => {
-    const product = await ProductService.getProduct({ id: req.params.id })
+  static getProductByIdHandler = catchErrors(async (req: Request, res: Response) => {
+    const paramsSchema = z.object({
+      id: z.string().transform(val => parseInt(val, 10))
+    })
+
+    const { id } = paramsSchema.parse(req.params)
+
+    if(isNaN(id)){
+      return res.status(BAD_REQUEST).json({ error: 'Invalid product ID format.' })
+    }
+
+    const product = await ProductService.getProductById({ id })
     return res.json(product)
   })
 }
