@@ -3,7 +3,7 @@ import { ProductController } from '../controllers/productController'
 
 const productRouters = Router()
 
-productRouters.get('/', ProductController.getAllProducts)
-productRouters.get('/:id', ProductController.getProduct)
+productRouters.get('/', ProductController.getAllProductsHandler)
+productRouters.get('/:id', ProductController.getProductByIdHandler)
 
 export default productRouters
