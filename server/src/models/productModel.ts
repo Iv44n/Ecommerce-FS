@@ -1,5 +1,7 @@
 import { pool } from '../config/db'
+import { NOT_FOUND } from '../constants/http'
 import { Product } from '../types/product'
+import AppError from '../utils/AppError'
 
 export class ProductModel {
 
@@ -15,7 +17,7 @@ export class ProductModel {
     const { rows } = await pool.query(this.sqlGetProductById, [id])
 
     if (rows.length === 0) {
-      throw new Error('Product not found')
+      throw new AppError(NOT_FOUND, 'Product not found')
     }
 
     return rows[0]
