@@ -2,6 +2,7 @@ import { ErrorRequestHandler, Response } from 'express'
 import { z } from 'zod'
 import { INTERNAL_SERVER_ERROR, UNPROCESSABLE_CONTENT } from '../constants/http'
 import { DatabaseError } from 'pg'
+import AppError from '../utils/AppError'
 
 const zodErrorHandler = (err: z.ZodError, res: Response) => {
   const errors = err.issues.map(issue => ({
@@ -23,6 +24,10 @@ export const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
 
   if(err instanceof DatabaseError){
     console.log(err.message)
+  }
+
+  if (err instanceof AppError) {
+    return res.status(err.statusCode).json({ error: err.message })
   }
 
   return res.status(INTERNAL_SERVER_ERROR).send('Internal Server Error')
