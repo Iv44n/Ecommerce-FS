@@ -10,6 +10,10 @@ export default [
   {
     files: ['**/*.{js,mjs,cjs,ts}'],
     languageOptions: { globals: globals.node },
+    plugins: {
+      '@stylistic/ts': stylisticTs,
+      '@stylistic': stylistic
+    },
     rules: {
       '@stylistic/ts/indent': ['error', 2],
       '@stylistic/ts/quotes': ['error', 'single'],
@@ -47,10 +51,6 @@ export default [
   },
 
   {
-    ignores: ['node_modules/**', 'dist/**'],
-    plugins: {
-      '@stylistic/ts': stylisticTs,
-      '@stylistic': stylistic
-    }
+    ignores: ['node_modules/**', 'dist/**']
   }
 ]
