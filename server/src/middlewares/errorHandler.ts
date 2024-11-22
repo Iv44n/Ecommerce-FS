@@ -18,19 +18,23 @@ const zodErrorHandler = (err: z.ZodError, res: Response) => {
 
 export const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
   console.log(err)
+
   if (err instanceof z.ZodError) {
-    return zodErrorHandler(err, res)
+    zodErrorHandler(err, res)
+    return
   }
 
-  if(err instanceof DatabaseError){
-    console.log(err.message)
+  if (err instanceof DatabaseError) {
+    res.status(INTERNAL_SERVER_ERROR).send('Database Error')
+    return
   }
 
   if (err instanceof AppError) {
-    return res.status(err.statusCode).json({ error: err.message })
+    res.status(err.statusCode).json({ error: err.message })
+    return
   }
 
-  return res.status(INTERNAL_SERVER_ERROR).send('Internal Server Error')
+  res.status(INTERNAL_SERVER_ERROR).send('Internal Server Error')
 }
 
 export default errorHandler
