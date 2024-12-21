@@ -16,7 +16,7 @@ const zodErrorHandler = (err: z.ZodError, res: Response) => {
   })
 }
 
-export const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
+export const errorHandler: ErrorRequestHandler = (err, _req, res, next) => {
   console.log(err)
 
   if (err instanceof z.ZodError) {
@@ -25,8 +25,7 @@ export const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
   }
 
   if (err instanceof DatabaseError) {
-    res.status(INTERNAL_SERVER_ERROR).send('Database Error')
-    return
+    return next(res.status(INTERNAL_SERVER_ERROR).send('Database Error'))
   }
 
   if (err instanceof AppError) {
